@@ -3,22 +3,21 @@
 LANG=en_US
 
 Usage() {
-	echo "Usage: $0 Logfile"
+        echo "Usage: $0 Logfile"
 }
 
 if [ $# -eq 0 ] ;then
-	Usage
-	exit 0
+    Usage
+    exit 0
 else
-	Log=$1
+    Log=$1
 fi
 
 
-Year=$(date |awk '{print $6}')
-Mon=$(date |awk '{print $2}')
-Day=$(date |awk '{print $3}')
 
-Yesterday=$((Day-1))
-Logfile=${Year}-${Mon}-${Yesterday}.log
-
-cat $Log| sed -n "/${Yesterday}\/${Mon}\/${Year}:00/,/${Day}\/${Mon}\/${Year}:00/p"  > $Logfile
+cat $Log | while read line;do
+    Year=$(echo $line | awk '{print $4}'| awk -F '/' '{print $3}' |awk -F ':' '{print $1}')
+    Month=$(echo $line | awk '{print $4}'| awk -F '/' '{print $2}')
+    Day=$(echo $line | awk '{print $4}'| awk -F '/' '{print $1}' | sed 's/\[//')
+    echo $line >> /tmp/log/${Year}-${Month}-${Day}
+done
