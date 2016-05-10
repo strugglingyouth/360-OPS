@@ -19,9 +19,9 @@ fi
 
 
 cat $Log | while read line;do 
-    Year=$(awk '{print $4}'| awk -F '/' '{print $3}' |awk -F ':' '{print $1}' $line)
-    Month=$(awk '{print $4}'| awk -F '/' '{print $2}' $line)
-    Day=$(awk '{print $4}'| awk -F '/' '{print $1}' | awk -F '[' '{print $2}' $line)
+    Year=$(echo $line | awk '{print $4}'| awk -F '/' '{print $3}' |awk -F ':' '{print $1}')
+    Month=$(echo $line | awk '{print $4}'| awk -F '/' '{print $2}')
+    Day=$(echo $line | awk '{print $4}'| awk -F '/' '{print $1}' | awk -F '[' '{print $2}')
     echo $line >> /tmp/log2/${Year}-${Month}-${Day}
 done
 
