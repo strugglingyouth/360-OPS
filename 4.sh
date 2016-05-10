@@ -1,6 +1,9 @@
 #!/bin/bash
 
 LANG=en_US
+#!/bin/bash
+
+LANG=en_US
 
 Usage() {
         echo "Usage: $0 Logfile"
@@ -15,13 +18,12 @@ fi
 
 
 
-cat $Log | while read line;do
-    Year=$(echo $line | awk '{print $4}'| awk -F '/' '{print $3}' |awk -F ':' '{print $1}')
-    Month=$(echo $line | awk '{print $4}'| awk -F '/' '{print $2}')
-    Day=$(echo $line | awk '{print $4}'| awk -F '/' '{print $1}' | sed 's/\[//')
-    echo $line >> /tmp/log/${Year}-${Month}-${Day}
+cat $Log | while read line;do 
+    Year=$(awk '{print $4}'| awk -F '/' '{print $3}' |awk -F ':' '{print $1}' $line)
+    Month=$(awk '{print $4}'| awk -F '/' '{print $2}' $line)
+    Day=$(awk '{print $4}'| awk -F '/' '{print $1}' | awk -F '[' '{print $2}' $line)
+    echo $line >> /tmp/log2/${Year}-${Month}-${Day}
 done
-
 
 下面是python多线程版本的：
 
@@ -30,9 +32,8 @@ done
 
 import threading 
 import re
-from Queue import Queue
 
-line_of_log = Queue()
+
 pattern = re.compile(r'.*\[(\d+)\/(\w+)\/(\d+)\:.*')
 #pattern = re.compile('.*\[([0-9]+)\/([a-zA-Z]+)\/([0-9]+)\:.*')
 
