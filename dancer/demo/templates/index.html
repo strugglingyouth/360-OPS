@@ -1,0 +1,23 @@
+{% load staticfiles %}
+<html>
+    <head>
+        <meta charset='utf-8' />
+        <link rel='stylesheet' href="{% static 'demo/css/bootstrap.min.css' %}" />
+    </head>
+    <body style="margin:50px;" class="table-responsive">
+        <table class="table table-bordered"> 
+            <tbody>
+                <tr>
+                    <td>文件</td><td>时间</td>
+                </tr>
+        {% for key,value in file_list.items %}
+
+                <tr>
+                    <td>{{ key }}</td><td>{{ value }}</td>
+                </tr>
+
+        {% endfor %}
+            </tbody>
+        </table>
+    </body>
+</html>
